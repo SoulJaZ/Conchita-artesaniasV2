@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 const cartItemSchema = new mongoose.Schema({
   // Producto relacionado
   product: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
     required: true,
   },
@@ -34,7 +34,6 @@ const cartSchema = new mongoose.Schema(
 
       required: true,
     },
-
     // Lista productos
     items: [cartItemSchema],
   },

@@ -15,6 +15,9 @@ const protect = async (req, res, next) => {
       req.headers.authorization.startsWith("Bearer")
     ) {
       // Extrar token.
+      token = req.headers.authorization.split(" ")[1];
+
+      // Validar token.
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // Buscar usuario.
@@ -29,7 +32,7 @@ const protect = async (req, res, next) => {
     }
   } catch (error) {
     return res.status(401).json({
-      message: "Token inválid.",
+      message: "Token inválido.",
     });
   }
 };

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import {
  AuthContext
-} from "../../context/authContext";
+} from "../../context/AuthContext";
 
 
 // Componente Login

@@ -1,6 +1,12 @@
 // Importamos express
 import express from "express";
 
+// Importar Cookies httpOnly
+import cookieParser from "cookie-parser";
+
+// Importar monogoSanitize 
+import mongoSanitize from "express-mongo-sanitize"
+
 // Permite conexión entre frontend y backend
 import cors from "cors";
 
@@ -10,6 +16,9 @@ import helmet from "helmet";
 // Rutas órdenes
 import orderRoutes from "./routes/orderRoutes.js"
 
+// Rutas carts
+import cartRoutes from "./routes/cartRoutes.js"
+
 // Rutas productos
 import productRoutes from "./routes/productRoutes.js";
 
@@ -18,6 +27,7 @@ import errorMiddleware from "./middleware/errorMiddleware.js";
 
 // Rutas autenticación
 import authRoutes from "./routes/authRoutes.js";
+import limiter from "./middleware/rateLimitMiddleware.js";
 
 
 // Creamos aplicación express
@@ -32,7 +42,15 @@ const app = express();
 app.use(cors());
 
 // Agrega seguridad HTTP
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy:false
+}));
+
+// Agrega sanitización MongoDb
+app.use(mongoSanitize());
+
+// Usar Cookies httpOnly
+app.use(cookieParser());
 
 // Permite recibir JSON
 app.use(express.json());
@@ -44,6 +62,9 @@ app.use(express.json());
 
 // Rutas autenticación
 app.use("/api/auth", authRoutes);
+
+// Rutas Cart
+app.use("/api/cart", cartRoutes)
 
 // Rutas productos
 app.use("/api/products", productRoutes);
@@ -57,6 +78,7 @@ app.use("/api/orders", orderRoutes)
 // ===============================
 
 app.use(errorMiddleware);
+app.use(limiter);
 
 
 // Exportamos app

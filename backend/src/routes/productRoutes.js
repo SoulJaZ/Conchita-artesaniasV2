@@ -3,6 +3,7 @@ import express from 'express'
 import protect from "../middleware/authMiddleware.js"
 import { getProduct } from '../controllers/productController.js';
 import admin from "../middleware/adminMiddleware.js";
+import { getAllProducts } from '../services/productService.js';
 
 
 // ============================
@@ -17,6 +18,7 @@ router.post(
   protect,
 
   admin,
+
 
   async(req,res)=>{
 
