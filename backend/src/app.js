@@ -2,7 +2,6 @@ import express from "express";
 
 import cookieParser from "cookie-parser";
 
-import mongoSanitize from "express-mongo-sanitize";
 
 import cors from "cors";
 
@@ -60,8 +59,6 @@ app.use(
 app.use(limiter);
 
 // Agrega sanitización MongoDb
-app.use(mongoSanitize());
-
 // Usar Cookies httpOnly
 app.use(cookieParser());
 
