@@ -1,15 +1,39 @@
-import express from 'express'
+import express from "express";
 
-import protect from "../middleware/authMiddleware.js"
-import { getProduct } from '../controllers/productController.js';
+import protect from "../middleware/authMiddleware.js";
+
 import admin from "../middleware/adminMiddleware.js";
-import { getAllProducts } from '../services/productService.js';
 
+import {
 
-// ============================
-// CREAR PRODUCTO
-// ============================
+  createProduct,
+  getProducts,
+  getProductById
+
+} from "../controllers/productController.js";
+// ROUTER
+
 const router = express.Router();
+// OBTENER TODOS LOS PRODUCTOS
+// GET /api/products
+
+router.get(
+
+  "/",
+  getProducts
+);
+// OBTENER PRODUCTO POR ID
+// GET /api/products/:id
+
+router.get(
+
+  "/:id",
+
+  getProductById
+);
+
+// CREAR PRODUCTO
+// POST /api/products
 
 router.post(
 
@@ -19,14 +43,7 @@ router.post(
 
   admin,
 
-
-  async(req,res)=>{
-
-    res.json({
-
-      message:"Producto creado"
-    });
-  }
+  createProduct
 );
 
 

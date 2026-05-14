@@ -19,6 +19,7 @@ import Footer from "../components/Footer/Footer"
 
 import ToastProvider from "../components/Ui/ToastProvider";
 
+import CartSidebar from "../components/CartSidebar/CartSidebar";
 
 // LAYOUT PRINCIPAL
 
@@ -53,6 +54,7 @@ function MainLayout(){
 
       </main>
 
+      <CartSidebar />
 
       {/* Footer */}
 

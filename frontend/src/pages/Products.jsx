@@ -12,6 +12,8 @@ import SearchBar from "../components/SearchBar/SearchBar";
 
 import Loader from "../components/Ui/Loader"
 
+import { toast } from "react-toastify";
+
 import ErrorMessage from "../components/Ui/ErrorMessage"
 
 import api from "../services/api";
@@ -43,15 +45,12 @@ function Products() {
 
       // Guardar productos
       setProducts(data);
+      toast.success("Productos cargados");
 
     } catch (error) {
 
       console.log(error);
-
-      setError(
-
-        "Error cargando productos"
-      );
+      setError(toast.error("Error cargando productos"));
 
     } finally {
 

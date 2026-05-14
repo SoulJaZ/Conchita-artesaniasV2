@@ -1,189 +1,199 @@
 import {
-
-    useState,
-    useEffect
-
+  useState,
+  useEffect,
+  useMemo
 } from "react";
 
+import { CartContext } from "./CartContext";
 
-// Context
-import { CartContext } from "./cartContext";
 
 // PROVIDER GLOBAL CARRITO
 
-function CartProvider({
+function CartProvider({ children }) {
+  // ESTADO CARRITO
 
-    children
+  const [cart, setCart] = useState([]);
 
-}) {
-    // ESTADO CARRITO
-    const [cart, setCart] = useState([]);
-    // RECUPERAR CARRITO
-    useEffect(() => {
-
-        // Obtener carrito guardado
-        const storedCart = localStorage.getItem("cart");
+  // Sidebar cart
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  // RECUPERAR CARRITO
 
 
-        // Si existe carrito
-        if (storedCart) {
+  useEffect(() => {
 
-            setCart(
+    const storedCart = localStorage.getItem("cart");
 
-                JSON.parse(storedCart)
-            );
-        }
+    if (storedCart) {
 
-    }, []);
-    // GUARDAR CARRITO
-    useEffect(() => {
+      setCart(JSON.parse(storedCart));
+    }
 
-        // Guardar cambios carrito
-        localStorage.setItem(
+  }, []);
+  // GUARDAR CARRITO
 
-            "cart",
 
-            JSON.stringify(cart)
+  useEffect(() => {
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(cart)
+    );
+
+  }, [cart]);
+
+  // AGREGAR PRODUCTO
+  const addToCart = (product) => {
+
+    setCart(prevCart => {
+
+      // Buscar producto existente
+      const existingProduct = prevCart.find(
+        item => item._id === product._id
+      );
+
+      // Si ya existe
+      if (existingProduct) {
+
+        return prevCart.map(item =>
+
+          item._id === product._id
+            ? {
+                ...item,
+                quantity: item.quantity + 1
+              }
+            : item
         );
-
-    }, [cart]);
-    // AGREGAR PRODUCTO
-
-    const addToCart = (product) => {
-
-        // Validar producto
-        if (!product) return;
-
-
-        // Buscar si ya existe
-        const existingProduct = cart.find(
-
-            item => item._id === product._id
-        );
-
-
-        // Si existe
-        if (existingProduct) {
-
-            // Actualizar cantidad
-            const updatedCart = cart.map(item =>
-
-                item._id === product._id
-
-                    ? {
-
-                        ...item,
-
-                        quantity: item.quantity + 1
-                    }
-
-                    : item
-            );
-
-            setCart(updatedCart);
-
-        } else {
-
-            // Agregar nuevo producto
-            setCart([
-
-                ...cart,
-
-                {
-
-                    ...product,
-
-                    quantity: 1
-                }
-            ]);
-        }
-    };
-    // ELIMINAR PRODUCTO
-    const removeFromCart = (id) => {
-
-        const updatedCart = cart.filter(
-
-            item => item._id !== id
-        );
-
-        setCart(updatedCart);
-    };
-
-// DISMINUIR CANTIDAD
-  const decreaseQuantity = (id)=>{
-
-    const updatedCart = cart.map(item =>{
-
-      if(item._id === id){
-
-        return{
-
-          ...item,
-
-          quantity: item.quantity - 1
-        };
       }
 
-      return item;
-    })
+      // Nuevo producto
+      return [
+        ...prevCart,
+        {
+          ...product,
+          quantity: 1
+        }
+      ];
+    });
 
-    // Eliminar si cantidad <= 0
-    .filter(item => item.quantity > 0);
-
-
-    setCart(updatedCart);
+    // Abrir sidebar automáticamente
+    setIsCartOpen(true);
   };
-    // LIMPIAR CARRITO
-    const clearCart = () => {
+  // ELIMINAR PRODUCTO
 
-        setCart([]);
-    };
-    // TOTAL PRODUCTOS
+  const removeFromCart = (id) => {
 
-    const totalItems = cart.reduce(
+    setCart(prevCart =>
 
-        (acc, item) =>
-
-            acc + item.quantity,
-
-        0
+      prevCart.filter(
+        item => item._id !== id
+      )
     );
-    // TOTAL PRECIO
-    const totalPrice = cart.reduce(
+  };
+  // AUMENTAR CANTIDAD
 
-        (acc, item) =>
+  const increaseQuantity = (id) => {
 
-            acc + (item.price * item.quantity),
+    setCart(prevCart =>
 
-        0
+      prevCart.map(item =>
+
+        item._id === id
+          ? {
+              ...item,
+              quantity: item.quantity + 1
+            }
+          : item
+      )
     );
-    // PROVIDER
-    return (
+  };
+  // DISMINUIR CANTIDAD
 
-        <CartContext.Provider
+  const decreaseQuantity = (id) => {
 
-            value={{
+    setCart(prevCart =>
 
-                cart,
+      prevCart
+        .map(item =>
 
-                addToCart,
+          item._id === id
+            ? {
+                ...item,
+                quantity: item.quantity - 1
+              }
+            : item
+        )
+        .filter(item => item.quantity > 0)
+    );
+  };
+  // LIMPIAR CARRITO
 
-                removeFromCart,
+  const clearCart = () => {
 
-                decreaseQuantity,
+    setCart([]);
+  };
+  // TOTAL ITEMS
 
-                clearCart,
+  const totalItems = useMemo(() => {
 
-                totalItems,
+    return cart.reduce(
 
-                totalPrice
-            }}
-        >
+      (acc, item) =>
 
-            {children}
+        acc + item.quantity,
 
-        </CartContext.Provider>
-    )
+      0
+    );
+
+  }, [cart]);
+  // TOTAL PRECIO
+
+  const totalPrice = useMemo(() => {
+
+    return cart.reduce(
+
+      (acc, item) =>
+
+        acc + (item.price * item.quantity),
+
+      0
+    );
+
+  }, [cart]);
+  // SIDEBAR
+
+  const openCart = () => {
+
+    setIsCartOpen(true);
+  };
+
+  const closeCart = () => {
+
+    setIsCartOpen(false);
+  };
+  // PROVIDER
+
+  return (
+
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        increaseQuantity,
+        decreaseQuantity,
+        clearCart,
+        totalItems,
+        totalPrice,
+        isCartOpen,
+        openCart,
+        closeCart
+      }}
+    >
+
+      {children}
+
+    </CartContext.Provider>
+  );
 }
 
 export default CartProvider;
