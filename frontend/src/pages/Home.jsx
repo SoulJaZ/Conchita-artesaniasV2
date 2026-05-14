@@ -1,26 +1,53 @@
 import { useEffect } from "react";
-import api from '../services/api'
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
+
+import api from "../services/api";
+
+// HOME PAGE
 
 function Home() {
+
+    // TEST API
+
     useEffect(() => {
-        api.get("/products")
-            .then(res => console.log(res.data))
-            .catch(err => console.error(err))
+
+        const fetchProducts = async () => {
+
+            try {
+
+                const res = await api.get("/products");
+
+                console.log(res.data);
+
+            } catch (error) {
+
+                console.error(error);
+            }
+        };
+
+        fetchProducts();
+
     }, []);
 
-    return <>
-        <Navbar />
 
-        <main>
-            <h1>Bienvenidos!</h1>
-        </main>
+    return (
 
-        <Footer />
-    </>
+        <section className="max-w-7xl mx-auto p-5">
+
+            <h1 className="text-5xl font-bold mb-5">
+
+                Bienvenidos
+
+            </h1>
 
 
+            <p className="text-gray-600 text-lg">
+
+                Descubre nuestras artesanías únicas.
+
+            </p>
+
+        </section>
+    )
 }
 
 export default Home;

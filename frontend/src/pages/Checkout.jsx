@@ -3,7 +3,7 @@ import {
 } from "react";
 import {
     CartContext
-} from "../../context/cartContext"
+} from "../context/cartContext"
 
 // Checkout
 function Checkout(){

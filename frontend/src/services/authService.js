@@ -1,9 +1,7 @@
 // Importar api axios
 import api from "./api.js";
 
-// ========================
 // REGISTRAR
-// ========================
 
 export const registerUser = async(data)=>{
 
@@ -15,9 +13,7 @@ export const registerUser = async(data)=>{
     return response.data;
 };
 
-// ===============================
 // LOGIN
-// ===============================
 export const loginUser = async(data)=>{
     const response = await api.post(
         "/auth/login",

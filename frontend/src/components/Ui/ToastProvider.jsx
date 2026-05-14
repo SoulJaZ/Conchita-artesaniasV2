@@ -1,5 +1,5 @@
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastfy.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function ToastProvider(){
     return <ToastContainer/>
