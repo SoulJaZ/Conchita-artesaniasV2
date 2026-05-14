@@ -1,149 +1,131 @@
-import {
+import { Link } from "react-router-dom";
 
-  Link
+// FOOTER
 
-} from "react-router-dom";
+function Footer() {
 
-// FOOTER GLOBAL
+  return (
 
-function Footer(){
+    <footer className="
+      bg-[#2d1f17]
+      text-white
+      py-16
+      mt-20
+    ">
 
-  // Año dinámico
-  const currentYear = new Date().getFullYear();
+      <div className="
+        max-w-7xl
+        mx-auto
+        px-6
+        grid
+        md:grid-cols-3
+        gap-12
+      ">
 
+        {/* BRAND */}
 
-  return(
+        <div>
 
-    <footer className="bg-black text-white mt-16">
-
-      <div className="max-w-7xl mx-auto px-5 py-10 grid gap-10 md:grid-cols-3">
-
-
-        {/* Marca */}
-
-        <section>
-
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="
+            text-3xl
+            font-bold
+            mb-4
+          ">
 
             Conchita Artesanías
 
           </h2>
 
+          <p className="
+            text-gray-300
+            leading-relaxed
+          ">
 
-          <p className="text-gray-400">
-
-            Artesanías únicas hechas con creatividad y pasión.
+            Artesanías únicas hechas
+            con creatividad y pasión.
 
           </p>
 
-        </section>
+        </div>
 
+        {/* LINKS */}
 
-        {/* Navegación */}
+        <div>
 
-        <section>
-
-          <h3 className="text-xl font-bold mb-4">
+          <h3 className="
+            text-xl
+            font-semibold
+            mb-4
+          ">
 
             Navegación
 
           </h3>
 
-
-          <ul className="space-y-2">
+          <ul className="space-y-3">
 
             <li>
-
-              <Link to="/">
-
-                Inicio
-
-              </Link>
-
+              <Link to="/">Inicio</Link>
             </li>
 
-
             <li>
-
               <Link to="/products">
-
                 Productos
-
               </Link>
-
             </li>
 
-
             <li>
-
               <Link to="/cart">
-
                 Carrito
-
               </Link>
-
             </li>
 
           </ul>
 
-        </section>
+        </div>
 
+        {/* CONTACT */}
 
-        {/* Contacto */}
+        <div>
 
-        <section>
-
-          <h3 className="text-xl font-bold mb-4">
+          <h3 className="
+            text-xl
+            font-semibold
+            mb-4
+          ">
 
             Contacto
 
           </h3>
 
+          <p>Bogotá, Colombia</p>
 
-          <ul className="space-y-2 text-gray-400">
+          <p>contacto@conchita.com</p>
 
-            <li>
+          <p>+57 324 420 9196</p>
 
-              Bogotá, Colombia
-
-            </li>
-
-
-            <li>
-
-              contacto@conchita.com
-
-            </li>
-
-
-            <li>
-
-              +57 324 420 9196
-
-            </li>
-
-          </ul>
-
-        </section>
+        </div>
 
       </div>
 
+      {/* COPYRIGHT */}
 
-      {/* Bottom footer */}
+      <div className="
+        text-center
+        text-gray-400
+        mt-12
+        border-t
+        border-gray-700
+        pt-6
+      ">
 
-      <div className="border-t border-gray-700 py-5 text-center text-gray-400">
-
-        <p>
-
-          © {currentYear} Conchita Artesanías.
-          Todos los derechos reservados.
-
-        </p>
+        © 2026 Conchita Artesanías.
+        Todos los derechos reservados.
 
       </div>
 
     </footer>
-  )
+  );
 }
 
 export default Footer;

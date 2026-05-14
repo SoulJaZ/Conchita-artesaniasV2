@@ -1,32 +1,29 @@
-// Importamos express
 import express from "express";
 
-// Importar Cookies httpOnly
 import cookieParser from "cookie-parser";
 
-// Importar monogoSanitize
 import mongoSanitize from "express-mongo-sanitize";
 
-// Permite conexión entre frontend y backend
 import cors from "cors";
 
-// Seguridad básica HTTP
 import helmet from "helmet";
 
-// Rutas órdenes
+
+// ROUTES
+
 import orderRoutes from "./routes/orderRoutes.js";
 
-// Rutas carts
 import cartRoutes from "./routes/cartRoutes.js";
 
-// Rutas productos
 import productRoutes from "./routes/productRoutes.js";
 
-// Middleware manejo errores
+import authRoutes from "./routes/authRoutes.js";
+
+
+// MIDDLEWARES
+
 import errorMiddleware from "./middleware/errorMiddleware.js";
 
-// Rutas autenticación
-import authRoutes from "./routes/authRoutes.js";
 import limiter from "./middleware/rateLimitMiddleware.js";
 
 // Creamos aplicación express
@@ -42,6 +39,14 @@ app.use(
     origin: ["http://localhost:5173", "https://conchita-artesanias.vercel.app"],
 
     credentials: true,
+    methods: [
+
+      "GET",
+      "POST",
+      "PUT",
+      "DELETE",
+      "OPTIONS"
+    ],
   }),
 );
 
@@ -52,6 +57,8 @@ app.use(
   }),
 );
 
+app.use(limiter);
+
 // Agrega sanitización MongoDb
 app.use(mongoSanitize());
 
@@ -61,12 +68,21 @@ app.use(cookieParser());
 // Permite recibir JSON
 app.use(express.json());
 
+// HEALTH CHECK
+
+app.get("/", (req, res) => {
+
+  res.send("API funcionando");
+});
+
 // ===============================
 // RUTAS
 // ===============================
 
 // Rutas autenticación
+
 app.use("/api/auth", authRoutes);
+
 
 // Rutas Cart
 app.use("/api/cart", cartRoutes);
@@ -80,9 +96,8 @@ app.use("/api/orders", orderRoutes);
 // ===============================
 // MIDDLEWARE ERRORES
 // ===============================
-
 app.use(errorMiddleware);
-app.use(limiter);
+
 
 // Exportamos app
 export default app;

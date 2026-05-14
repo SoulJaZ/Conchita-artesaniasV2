@@ -13,45 +13,38 @@ function ProductCard({
 
     return null;
   }
-  // IMAGEN FALLBACK
-
-  const [imageError,setImageError] = useState(false);
+  
 
   const { addToCart } = useContext(CartContext);
+
   return(
 
-    <article className="bg-white rounded-xl shadow hover:shadow-xl transition overflow-hidden">
+    <article className="bg-white rounded-xl overflow-hidden hover:shadow-xl transition duration-300 group">
 
       {/* Imagen producto */}
 
+      <div className="
+      overflow-hidden
+      h-[320px]
+      ">
       <img
 
         loading="lazy"
 
-        src={
-
-          imageError
-
-          ? "/placeholder.png"
-
-          : product.image
-        }
-
+        src={product.image}
         alt={product.name}
 
-        onError={()=>setImageError(true)}
-
-        className="w-full h-64 object-cover"
+        className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
       />
-
+      </div>
 
       {/* Información */}
 
-      <div className="p-5">
+      <div className="p-6">
 
         {/* Nombre */}
 
-        <h3 className="text-xl font-bold mb-2">
+        <h3 className="text-xl font-bold text-gray-900 mb-3">
 
           {product.name}
 
@@ -60,19 +53,24 @@ function ProductCard({
 
         {/* Descripción */}
 
-        <p className="text-gray-500 mb-4 line-clamp-2">
+        <p className="text-gray-600 mb-6 line-clamp-2">
 
           {product.description}
 
         </p>
 
-
+        <div className="
+        flex
+        items-center
+        justify-content
+        ">
         {/* Precio */}
 
-        <p className="text-2xl font-bold mb-3">
+        <p className="text-2xl font-bold mb-3 text-[#8b5e3c]">
 
           ${product.price}
         </p>
+
 
 
         {/* Stock */}
@@ -111,12 +109,13 @@ function ProductCard({
           disabled={product.stock <= 0}
 
           className={`
-
-            w-full
-            py-3
-            rounded
+            bg-[#8b5e3c]
+            hover:bg-[#6f472d]
             text-white
-            font-bold
+            px-5
+            py-3
+            rounded-xl
+            font-semibold
             transition
 
             ${
@@ -140,6 +139,7 @@ function ProductCard({
           }
 
         </button>
+        </div>
 
       </div>
 

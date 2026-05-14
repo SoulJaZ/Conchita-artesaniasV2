@@ -7,7 +7,7 @@ function Navbar() {
     // CONTEXT CARRITO
     const { cart } = useContext(CartContext);
 
-    // MENÚ MÓVILccf
+    // MENÚ MÓVIL
     const [menuOpen, setMenuOpen] = useState(false);
 
     // TOTAL ITEMS
@@ -26,20 +26,74 @@ function Navbar() {
         window.location.reload();
     }
 
-    return (
-        <header className="bg-black text-white shadow">
+    // ESTILO ENLACES ACTIVOS
 
-            <div className="max-w-7xl mx-auto px-5 py-4 flex justify-between items-center">
+    const navLinkStyle = ({ isActive }) =>
+        isActive
+            ? `
+        text-[#8b5e3c]
+        font-semibold
+      `
+
+            : `
+        text-gray-700
+        hover:text-[#8b5e3c]
+        transition
+      `;
+
+    return (
+        <header className="
+      sticky
+      top-0
+      z-50
+      bg-[#f8f5f2]/90
+      backdrop-blur-md
+      border-b
+      border-[#eaded1]
+    ">
+
+            <div className="max-w-7xl
+        mx-auto
+        px-6
+        py-4
+        flex
+        items-center
+        justify-between
+        ">
 
                 {/* Logo */}
 
                 <Link to="/">
 
-                    <h1 className="text-2xl font-bold">
+                    <div className="flex flex-col">
+                        <span className="
+                        text-2xl
+                        md:text-3xl
+                        font-bold
+                        text-[#8b5e3c]
+                        tracking-tight
+            
+                        ">
 
-                        Conchita Artesanías
+                            Conchita Artesanías
 
-                    </h1>
+                        </span>
+
+                        <span
+                            className="
+              text-xs
+              text-gray-500
+              tracking-[3px]
+              uppercase
+            "
+                        >
+
+                            Handmade Store
+
+                        </span>
+                    </div>
+
+
 
                 </Link>
 
@@ -48,7 +102,11 @@ function Navbar() {
 
                 <button
 
-                    className="md:hidden"
+                    className="
+                    md:hidden 
+                    text-3xl
+                    text-[#8b5e3c]
+                    focus:outline-none"
 
                     onClick={() => setMenuOpen(!menuOpen)}
                 >
@@ -61,27 +119,42 @@ function Navbar() {
                 {/* Navegación */}
 
                 <nav className={`
+                absolute
+                md:static
+
+                top-[64px]
+                left-0
+
+                w-full
+                md:w-auto
+
+                bg-[#f8f5f2]
+                md:bg-transparent
+
+                px-6
+                md:px-0
+
+                py-6
+                md:py-0
+
+                flex-col
+                md:flex-row
+
+                gap-6
+                md:gap-8
+
+                items-start
+                md:items-center
+
+                shadow-lg
+                md:shadow-none
 
           ${menuOpen
 
                         ? "flex"
 
-                        : "hidden"
+                        : "hidden md:flex"
                     }
-
-          md:flex
-          flex-col
-          md:flex-row
-          gap-6
-          absolute
-          md:static
-          top-16
-          left-0
-          w-full
-          md:w-auto
-          bg-black
-          p-5
-          md:p-0
         `}>
 
 
@@ -91,14 +164,7 @@ function Navbar() {
 
                         to="/"
 
-                        className={({ isActive }) =>
-
-                            isActive
-
-                                ? "text-yellow-400"
-
-                                : ""
-                        }
+                        className={navLinkStyle}
                     >
 
                         Inicio
@@ -106,20 +172,11 @@ function Navbar() {
                     </NavLink>
 
 
-                    {/* Productos */}
-
                     <NavLink
 
                         to="/products"
 
-                        className={({ isActive }) =>
-
-                            isActive
-
-                                ? "text-yellow-400"
-
-                                : ""
-                        }
+                        className={navLinkStyle}
                     >
 
                         Productos
@@ -127,28 +184,43 @@ function Navbar() {
                     </NavLink>
 
 
-                    {/* Carrito */}
+                    {/* CARRITO */}
 
                     <NavLink
 
                         to="/cart"
 
-                        className={({ isActive }) =>
-
-                            isActive
-
-                                ? "text-yellow-400"
-
-                                : ""
-                        }
+                        className={navLinkStyle}
                     >
 
-                        Carrito ({totalItems})
+                        Carrito
+
+                        {
+
+                            totalItems > 0 && (
+
+                                <span
+                                    className="
+                  ml-2
+                  bg-[#8b5e3c]
+                  text-white
+                  text-xs
+                  px-2
+                  py-1
+                  rounded-full
+                "
+                                >
+
+                                    {totalItems}
+
+                                </span>
+                            )
+                        }
 
                     </NavLink>
 
 
-                    {/* Usuario autenticado */}
+                    {/* LOGIN / PERFIL */}
 
                     {
 
@@ -156,7 +228,12 @@ function Navbar() {
 
                             <>
 
-                                <NavLink to="/profile">
+                                <NavLink
+
+                                    to="/profile"
+
+                                    className={navLinkStyle}
+                                >
 
                                     Perfil
 
@@ -166,6 +243,17 @@ function Navbar() {
                                 <button
 
                                     onClick={logout}
+
+                                    className="
+                  bg-[#8b5e3c]
+                  hover:bg-[#6f472d]
+                  text-white
+                  px-5
+                  py-2
+                  rounded-xl
+                  transition
+                  duration-300
+                "
                                 >
 
                                     Salir
@@ -176,7 +264,21 @@ function Navbar() {
 
                         ) : (
 
-                            <NavLink to="/login">
+                            <NavLink
+
+                                to="/login"
+
+                                className="
+                bg-[#8b5e3c]
+                hover:bg-[#6f472d]
+                text-white
+                px-5
+                py-2
+                rounded-xl
+                transition
+                duration-300
+              "
+                            >
 
                                 Login
 

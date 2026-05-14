@@ -18,22 +18,22 @@ import api from "../services/api";
 
 // PÁGINA PRODUCTOS
 
-function Products(){
+function Products() {
   // ESTADOS
 
-  const [products,setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
-  const [loading,setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const [error,setError] = useState("");
+  const [error, setError] = useState("");
 
-  const [search,setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
   // OBTENER PRODUCTOS
 
-  const fetchProducts = async()=>{
+  const fetchProducts = async () => {
 
-    try{
+    try {
 
       setLoading(true);
 
@@ -44,7 +44,7 @@ function Products(){
       // Guardar productos
       setProducts(data);
 
-    }catch(error){
+    } catch (error) {
 
       console.log(error);
 
@@ -53,7 +53,7 @@ function Products(){
         "Error cargando productos"
       );
 
-    }finally{
+    } finally {
 
       setLoading(false);
     }
@@ -61,59 +61,73 @@ function Products(){
 
   // CARGA INICIAL
 
-  useEffect(()=>{
+  useEffect(() => {
 
     fetchProducts();
 
-  },[]);
+  }, []);
+  // FILTRAR PRODUCTOS
+
+  const filteredProducts = products.filter(product =>
+
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   // LOADING
 
-  if(loading){
+  if (loading) {
 
     return <Loader />;
   }
 
 
-  return(
+  return (
 
-    <main className="max-w-7xl mx-auto p-5">
+    <main className="bg-[#faf2f2] min-h-screen p-16">
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* Título */}
+        <div className="mb-12">
+          <h1 className="
+        text-5xl
+        font-bold
+        text-gray-900
+        mb-4
+        ">
+            Nuestros productos
+          </h1>
+          <p className="text-gray-700 text-lg">
+            Descubre la belleza de nuestras artesanías hechas a mano.
+          </p>
+        </div>
 
-      <h1 className="text-4xl font-bold mb-8">
+        {/* Sin productos */}
 
-        Productos
+        <div className="mb-10">
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+          />
+        </div>
 
-      </h1>
+        {/* Error*/}
+        {
+          error && (
+
+            <ErrorMessage
+              message={error}
+            />
+          )
+        }
+
+        {/* Lista productos */}
+
+        <ProductList
+
+          products={filteredProducts}
+        />
 
 
-      {/* Buscador */}
-
-      <SearchBar
-
-        search={search}
-
-        setSearch={setSearch}
-      />
-
-
-      {/* Error */}
-
-      <ErrorMessage
-
-        message={error}
-      />
-
-
-      {/* Lista productos */}
-
-      <ProductList
-
-        products={products}
-
-        search={search}
-      />
-
+      </div>
     </main>
   )
 }

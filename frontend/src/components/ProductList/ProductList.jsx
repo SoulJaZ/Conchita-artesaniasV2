@@ -1,43 +1,28 @@
-import {
-
-  memo,
-  useMemo
-
-} from "react";
-
 import ProductCard from "../ProductCard/ProductCard";
 
-// LISTA PRODUCTOS
+// PRODUCT LIST
 
-function ProductList({
+function ProductList({ products }) {
 
-  products = [],
-  search = ""
+  // NO PRODUCTS
 
-}){
+  if (products.length === 0) {
 
-  // FILTRAR PRODUCTOS
+    return (
 
-  const filteredProducts = useMemo(()=>{
+      <div className="
+        text-center
+        py-20
+      ">
 
-    return products.filter(product=>
+        <h2 className="
+          text-3xl
+          font-bold
+          text-gray-700
+          mb-4
+        ">
 
-      product.name
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-
-  },[products,search]);
-  // VALIDAR PRODUCTOS
-  if(filteredProducts.length === 0){
-
-    return(
-
-      <div className="text-center py-10">
-
-        <h2 className="text-2xl font-bold mb-3">
-
-          No hay productos disponibles
+          No se encontraron productos
 
         </h2>
 
@@ -48,29 +33,31 @@ function ProductList({
         </p>
 
       </div>
-    )
+    );
   }
 
+  return (
 
-  return(
-
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="
+      grid
+      sm:grid-cols-2
+      lg:grid-cols-3
+      xl:grid-cols-4
+      gap-8
+    ">
 
       {
-
-        filteredProducts.map(product => (
+        products.map(product => (
 
           <ProductCard
-
             key={product._id}
-
             product={product}
           />
         ))
       }
 
     </section>
-  )
+  );
 }
 
-export default memo(ProductList);
+export default ProductList;

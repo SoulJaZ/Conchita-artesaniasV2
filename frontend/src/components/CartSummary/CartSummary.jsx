@@ -1,66 +1,142 @@
 import {
-
   useContext
-
 } from "react";
 
 import {
+  Link
+} from "react-router-dom";
 
+import {
   CartContext
+} from "../../context/cartContext";
 
-} from "../../context/CartContext";
+// CART SUMMARY
 
-// RESUMEN CARRITO
+function CartSummary() {
 
-function CartSummary(){
+  const { cart } = useContext(CartContext);
 
-  const {
+  // TOTAL
 
-    totalItems,
-    totalPrice,
-    clearCart
+  const total = cart.reduce(
 
-  } = useContext(CartContext);
+    (acc, item) =>
 
+      acc + (item.price * item.quantity),
 
-  return(
+    0
+  );
 
-    <section className="mt-10 border p-5 rounded">
+  return (
 
-      <h2 className="text-2xl font-bold mb-4">
+    <div className="
+      bg-white
+      rounded-3xl
+      shadow-lg
+      p-8
+      sticky
+      top-10
+    ">
+
+      <h2 className="
+        text-2xl
+        font-bold
+        mb-8
+      ">
 
         Resumen
 
       </h2>
 
+      {/* ITEMS */}
 
-      <p>
+      <div className="space-y-4 mb-8">
 
-        Productos: {totalItems}
+        {
+          cart.map(item => (
 
-      </p>
+            <div
+              key={item._id}
+              className="
+                flex
+                justify-between
+              "
+            >
 
+              <span>
 
-      <p>
+                {item.name}
 
-        Total: ${totalPrice}
+              </span>
 
-      </p>
+              <span>
 
+                ${item.price}
 
-      <button
+              </span>
 
-        onClick={clearCart}
+            </div>
+          ))
+        }
 
-        className="mt-5"
+      </div>
+
+      {/* TOTAL */}
+
+      <div className="
+        border-t
+        pt-6
+        flex
+        justify-between
+        items-center
+        mb-8
+      ">
+
+        <h3 className="
+          text-xl
+          font-bold
+        ">
+
+          Total
+
+        </h3>
+
+        <p className="
+          text-2xl
+          font-bold
+          text-[#8b5e3c]
+        ">
+
+          ${total}
+
+        </p>
+
+      </div>
+
+      {/* CHECKOUT */}
+
+      <Link
+        to="/checkout"
+        className="
+          block
+          w-full
+          text-center
+          bg-[#8b5e3c]
+          hover:bg-[#6f472d]
+          text-white
+          py-4
+          rounded-xl
+          font-semibold
+          transition
+        "
       >
 
-        Vaciar carrito
+        Finalizar compra
 
-      </button>
+      </Link>
 
-    </section>
-  )
+    </div>
+  );
 }
 
 export default CartSummary;

@@ -1,98 +1,101 @@
 import {
-
   useContext
-
 } from "react";
 
 import {
-
   CartContext
+} from "../../context/cartContext";
 
-} from "../../context/CartContext";
+// CART ITEM
 
-// ITEM CARRITO
+function CartItem({ item }) {
 
-function CartItem({
+  const { removeFromCart } = useContext(CartContext);
 
-  item
+  return (
 
-}){
+    <article className="
+      bg-white
+      rounded-2xl
+      shadow-md
+      p-5
+      flex
+      gap-5
+      items-center
+    ">
 
-  const {
+      {/* IMAGE */}
 
-    addToCart,
-    decreaseQuantity,
-    removeFromCart
+      <img
+        src={item.image}
+        alt={item.name}
+        className="
+          w-28
+          h-28
+          object-cover
+          rounded-xl
+        "
+      />
 
-  } = useContext(CartContext);
+      {/* INFO */}
 
+      <div className="flex-1">
 
-  return(
+        <h3 className="
+          text-xl
+          font-bold
+          text-gray-900
+          mb-2
+        ">
 
-    <article className="border p-5 rounded mb-4">
+          {item.name}
 
-      <h3 className="text-xl font-bold">
+        </h3>
 
-        {item.name}
+        <p className="
+          text-gray-500
+          mb-3
+        ">
 
-      </h3>
+          Cantidad:
+          {" "}
+          {item.quantity}
 
+        </p>
 
-      <p>
+        <p className="
+          text-[#8b5e3c]
+          text-xl
+          font-bold
+        ">
 
-        ${item.price}
+          ${item.price}
 
-      </p>
-
-
-      <p>
-
-        Cantidad: {item.quantity}
-
-      </p>
-
-
-      <div className="flex gap-3 mt-4">
-
-        <button
-
-          onClick={()=>
-
-            decreaseQuantity(item._id)
-          }
-        >
-
-          -
-        </button>
-
-
-        <button
-
-          onClick={()=>
-
-            addToCart(item)
-          }
-        >
-
-          +
-        </button>
-
-
-        <button
-
-          onClick={()=>
-
-            removeFromCart(item._id)
-          }
-        >
-
-          Eliminar
-        </button>
+        </p>
 
       </div>
 
+      {/* BUTTON */}
+
+      <button
+        onClick={() => removeFromCart(item._id)}
+        className="
+          bg-red-500
+          hover:bg-red-600
+          text-white
+          px-4
+          py-2
+          rounded-xl
+          transition
+        "
+      >
+
+        Eliminar
+
+      </button>
+
     </article>
-  )
+  );
 }
 
 export default CartItem;
