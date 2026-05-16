@@ -1,50 +1,92 @@
-import { memo,useState } from "react";
-import { CartContext } from "../../context/cartContext";
+import {
+
+  memo,
+  useContext
+
+} from "react";
+
+import { CartContext } from "../../context/CartContext";
+
+
 // TARJETA PRODUCTO
 
-function ProductCard({
+function ProductCard({ product }){
 
-  product,
-
-}){
   // VALIDAR PRODUCTO
 
   if(!product){
 
     return null;
   }
-  
+
+
+  // CONTEXTO CARRITO
 
   const { addToCart } = useContext(CartContext);
 
+
   return(
 
-    <article className="bg-white rounded-xl overflow-hidden hover:shadow-xl transition duration-300 group">
-
-      {/* Imagen producto */}
-
-      <div className="
+    <article
+      className="
+      bg-white
+      rounded-2xl
       overflow-hidden
-      h-[320px]
-      ">
-      <img
+      shadow-sm
+      hover:shadow-2xl
+      transition-all
+      duration-300
+      group
+      border
+      border-[#eaded1]
+    ">
 
-        loading="lazy"
+      {/* Imagen */}
 
-        src={product.image}
-        alt={product.name}
+      <div
+        className="
+        overflow-hidden
+        h-[320px]
+        bg-[#f8f5f2]
+      "
+      >
 
-        className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-      />
+        <img
+
+          loading="lazy"
+
+          src={product.image}
+
+          alt={product.name}
+
+          className="
+          w-full
+          h-full
+          object-cover
+          group-hover:scale-105
+          transition
+          duration-500
+        "
+        />
+
       </div>
+
 
       {/* Información */}
 
       <div className="p-6">
 
+
         {/* Nombre */}
 
-        <h3 className="text-xl font-bold text-gray-900 mb-3">
+        <h3
+          className="
+          text-xl
+          font-bold
+          text-gray-900
+          mb-3
+        "
+        >
 
           {product.name}
 
@@ -53,92 +95,125 @@ function ProductCard({
 
         {/* Descripción */}
 
-        <p className="text-gray-600 mb-6 line-clamp-2">
+        <p
+          className="
+          text-gray-600
+          mb-6
+          line-clamp-2
+          min-h-[48px]
+        "
+        >
 
           {product.description}
 
         </p>
 
-        <div className="
-        flex
-        items-center
-        justify-content
-        ">
-        {/* Precio */}
 
-        <p className="text-2xl font-bold mb-3 text-[#8b5e3c]">
+        {/* Footer card */}
 
-          ${product.price}
-        </p>
-
-
-
-        {/* Stock */}
-
-        <p className="mb-4 text-sm">
-
-          {
-
-            product.stock > 0
-
-            ? (
-
-              <span className="text-green-600">
-
-                Disponible
-              </span>
-
-            ) : (
-
-              <span className="text-red-500">
-
-                Agotado
-              </span>
-            )
-          }
-
-        </p>
+        <div
+          className="
+          flex
+          items-center
+          justify-between
+          gap-4
+        "
+        >
 
 
-        {/* Botón carrito */}
+          {/* Precio + stock */}
 
-        <button
+          <div>
 
-          onClick={()=>addToCart(product)}
+            <p
+              className="
+              text-2xl
+              font-bold
+              text-[#8b5e3c]
+            "
+            >
 
-          disabled={product.stock <= 0}
+              ${product.price}
 
-          className={`
-            bg-[#8b5e3c]
-            hover:bg-[#6f472d]
-            text-white
-            px-5
-            py-3
-            rounded-xl
-            font-semibold
-            transition
+            </p>
 
-            ${
+
+            <p className="text-sm mt-1">
+
+              {
+
+                product.stock > 0
+
+                ? (
+
+                  <span className="text-green-600">
+
+                    Disponible
+
+                  </span>
+
+                ) : (
+
+                  <span className="text-red-500">
+
+                    Agotado
+
+                  </span>
+                )
+              }
+
+            </p>
+
+          </div>
+
+
+          {/* Botón */}
+
+          <button
+
+            onClick={()=>addToCart(product)}
+
+            disabled={product.stock <= 0}
+
+            className={`
+              px-5
+              py-3
+              rounded-xl
+              font-semibold
+              text-sm
+              transition-all
+              duration-300
+
+              ${
+
+                product.stock > 0
+
+                ? `
+                  bg-[#8b5e3c]
+                  hover:bg-[#6f472d]
+                  text-white
+                `
+
+                : `
+                  bg-gray-300
+                  text-gray-500
+                  cursor-not-allowed
+                `
+              }
+            `}
+          >
+
+            {
 
               product.stock > 0
 
-              ? "bg-black hover:bg-gray-800"
+              ? "Agregar"
 
-              : "bg-gray-400 cursor-not-allowed"
+              : "Sin stock"
             }
-          `}
-        >
 
-          {
+          </button>
 
-            product.stock > 0
-
-            ? "Agregar al carrito"
-
-            : "Sin stock"
-          }
-
-        </button>
         </div>
 
       </div>

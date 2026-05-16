@@ -6,7 +6,7 @@ function ProductList({ products }) {
 
   // NO PRODUCTS
 
-  if (products.length === 0) {
+  if (!products?.length) {
 
     return (
 

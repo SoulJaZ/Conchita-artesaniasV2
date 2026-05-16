@@ -4,7 +4,7 @@ import {
 
 import {
   CartContext
-} from "../../context/cartContext";
+} from "../../context/CartContext";
 
 // CART ITEM
 

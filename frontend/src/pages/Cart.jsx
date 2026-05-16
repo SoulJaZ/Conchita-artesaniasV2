@@ -7,7 +7,7 @@ import {
 
 
 // Context
-import { CartContext } from "../context/cartContext";
+import { CartContext } from "../context/CartContext";
 
 
 // Components

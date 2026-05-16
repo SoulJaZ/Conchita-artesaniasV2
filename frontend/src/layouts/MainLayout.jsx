@@ -1,72 +1,33 @@
-import {
-
-  Outlet,
-  useLocation
-
-} from "react-router-dom";
-
-import {
-
-  useEffect
-
-} from "react";
-
-
-// Layout Components
+import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
-
-import Footer from "../components/Footer/Footer"
-
+import Footer from "../components/Footer/Footer";
+import CartDrawer from "../components/CartDrawer/CartDrawer";
 import ToastProvider from "../components/Ui/ToastProvider";
 
-import CartSidebar from "../components/CartSidebar/CartSidebar";
+// LAYOUT
 
-// LAYOUT PRINCIPAL
+function MainLayout() {
 
-function MainLayout(){
-  
-    // LOCATION
+  return (
 
-  const location = useLocation();
-  // SCROLL TOP
-
-  useEffect(()=>{
-
-    window.scrollTo(0,0);
-
-  },[location.pathname]);
-
-
-  return(
-
-    <div className="flex flex-col min-h-screen bg-gray-50">
-
-      {/* Navbar */}
+    <>
 
       <Navbar />
 
+      <CartDrawer />
 
-      {/* Contenido */}
+      <ToastProvider />
 
-      <main className="flex-1 w-full">
+      <main className="min-h-screen">
 
         <Outlet />
 
       </main>
 
-      <CartSidebar />
-
-      {/* Footer */}
-
       <Footer />
 
-
-      {/* Toasts globales */}
-
-      <ToastProvider />
-
-    </div>
-  )
+    </>
+  );
 }
 
 export default MainLayout;

@@ -8,24 +8,14 @@ import {
 
 import {
   CartContext
-} from "../../context/cartContext";
+} from "../../context/CartContext";
 
 // CART SUMMARY
 
 function CartSummary() {
 
-  const { cart } = useContext(CartContext);
+  const { cart, totalPrice } = useContext(CartContext);
 
-  // TOTAL
-
-  const total = cart.reduce(
-
-    (acc, item) =>
-
-      acc + (item.price * item.quantity),
-
-    0
-  );
 
   return (
 
@@ -107,7 +97,7 @@ function CartSummary() {
           text-[#8b5e3c]
         ">
 
-          ${total}
+          ${totalPrice}
 
         </p>
 

@@ -1,194 +1,122 @@
 import {
   useState,
-  useEffect,
   useMemo
 } from "react";
 
+import { toast } from "react-toastify";
+
 import { CartContext } from "./CartContext";
-
-
-// PROVIDER GLOBAL CARRITO
+// PROVIDER CARRITO
 
 function CartProvider({ children }) {
+
   // ESTADO CARRITO
 
   const [cart, setCart] = useState([]);
 
-  // Sidebar cart
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  // RECUPERAR CARRITO
+  // ABRIR / CERRAR SIDEBAR
 
+  const [cartOpen, setCartOpen] = useState(false);
 
-  useEffect(() => {
+  // ABRIR / CERRAR SIDEBAR
 
-    const storedCart = localStorage.getItem("cart");
+  const openCart = () => setCartOpen(true);
+  const closeCart = () => setCartOpen(false);
 
-    if (storedCart) {
-
-      setCart(JSON.parse(storedCart));
-    }
-
-  }, []);
-  // GUARDAR CARRITO
-
-
-  useEffect(() => {
-
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(cart)
-    );
-
-  }, [cart]);
+  
 
   // AGREGAR PRODUCTO
+
   const addToCart = (product) => {
 
-    setCart(prevCart => {
+    const existingProduct = cart.find(
 
-      // Buscar producto existente
-      const existingProduct = prevCart.find(
-        item => item._id === product._id
-      );
+      item => item._id === product._id
+    );
 
-      // Si ya existe
-      if (existingProduct) {
+    if (existingProduct) {
 
-        return prevCart.map(item =>
+      setCart(
+        cart.map(item =>
 
-          item._id === product._id
-            ? {
-                ...item,
-                quantity: item.quantity + 1
-              }
-            : item
-        );
-      }
+        item._id === product._id
 
-      // Nuevo producto
-      return [
-        ...prevCart,
+          ? {
+              ...item,
+              quantity: item.quantity + 1
+            }
+
+          : item
+      )
+    );
+    toast.success("Cantidad actualizada");
+    return;
+    }  
+
+      setCart([
+        ...cart,
         {
           ...product,
           quantity: 1
         }
-      ];
-    });
-
-    // Abrir sidebar automáticamente
-    setIsCartOpen(true);
+      ]);
+    toast.success("Producto agregado al carrito");
   };
   // ELIMINAR PRODUCTO
 
   const removeFromCart = (id) => {
 
-    setCart(prevCart =>
+    setCart(
+      cart.filter(
 
-      prevCart.filter(
-        item => item._id !== id
-      )
-    );
+      item => item._id !== id
+    )
+  );
+  toast.success("Producto eliminado del carrito");
   };
-  // AUMENTAR CANTIDAD
-
-  const increaseQuantity = (id) => {
-
-    setCart(prevCart =>
-
-      prevCart.map(item =>
-
-        item._id === id
-          ? {
-              ...item,
-              quantity: item.quantity + 1
-            }
-          : item
-      )
-    );
-  };
-  // DISMINUIR CANTIDAD
-
-  const decreaseQuantity = (id) => {
-
-    setCart(prevCart =>
-
-      prevCart
-        .map(item =>
-
-          item._id === id
-            ? {
-                ...item,
-                quantity: item.quantity - 1
-              }
-            : item
-        )
-        .filter(item => item.quantity > 0)
-    );
-  };
-  // LIMPIAR CARRITO
 
   const clearCart = () => {
 
     setCart([]);
+    toast.success("Carrito vaciado");
   };
   // TOTAL ITEMS
 
   const totalItems = useMemo(() => {
-
     return cart.reduce(
 
-      (acc, item) =>
-
-        acc + item.quantity,
-
-      0
+      (acc, item) => acc + item.quantity, 0
     );
+  }, [cart]
 
-  }, [cart]);
+  );
   // TOTAL PRECIO
 
   const totalPrice = useMemo(() => {
-
     return cart.reduce(
-
-      (acc, item) =>
-
-        acc + (item.price * item.quantity),
-
-      0
+      (acc, item) => acc + item.price * item.quantity, 0
     );
+  }, [cart]
+  );
 
-  }, [cart]);
-  // SIDEBAR
-
-  const openCart = () => {
-
-    setIsCartOpen(true);
-  };
-
-  const closeCart = () => {
-
-    setIsCartOpen(false);
-  };
-  // PROVIDER
 
   return (
 
     <CartContext.Provider
       value={{
         cart,
+        setCart,
         addToCart,
+        cartOpen,
         removeFromCart,
-        increaseQuantity,
-        decreaseQuantity,
         clearCart,
-        totalItems,
-        totalPrice,
-        isCartOpen,
         openCart,
-        closeCart
-      }}
-    >
+        closeCart,
+        totalPrice,
+        totalItems
+
+
+      }}>
 
       {children}
 
