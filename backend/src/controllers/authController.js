@@ -19,14 +19,19 @@ export const register = async (req, res) => {
     // Registrar usuario
     const user = await registerUser(req.body);
 
+    // Generar token.
+    const token = generateToken(user._id);
+
     // Respondemos al cliente
     res.status(201).json({
       message: "Usuario registrado.",
-
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
+        token: user.token,
       },
     });
   } catch (error) {
