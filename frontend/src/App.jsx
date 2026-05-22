@@ -23,15 +23,16 @@ import Login from "./pages/Login";
 // Admin layout
 // import ProductCard from "./components/ProductCard/ProductCard";
 
-// import OrdersAdmin from "./components/admin/pages/OrdersAdmin";
+import OrdersAdmin from "./components/admin/pages/OrdersAdmin";
 
 import UserAdmin from "./components/admin/pages/UserAdmin"
+import Profile from "./components/admin/pages/Profile";
 
 // ADMIN PAGES
 import Dashboard from "./components/admin/pages/Dashboard";
 import AdminLayout from "./components/admin/layouts/AdminLayout";
 import ProductsAdmin from "./components/admin/pages/ProductsAdmin";
-import AdminProtectedRoute from "./components/admin/routes/AdminRoutes";
+import AdminProtectedRoute from "./components/admin/routes/AdminProtectedRoutes";
 // APP
 
 function App() {
@@ -69,33 +70,43 @@ function App() {
         </Route>
 
         {/* Rutas admin */}
-        <Route path="/admin" 
-        element={
-          <AdminProtectedRoute>
-            <AdminLayout />
-          </AdminProtectedRoute>
-        }>
+        <Route path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout />
+            </AdminProtectedRoute>
+          }>
           {/* Aquí irían las rutas del admin */}
 
           <Route
-            path="dashboard"
+            index
             element={<Dashboard />}
           />
-          {/* 
+
           <Route
             path="orders"
             element={<OrdersAdmin />}
           />
-          */}
+
           <Route
-            path="/productsCards"
+            path="products"
             element={<ProductsAdmin />}
           />
           <Route
-            path="/users"
+            path="users"
             element={<UserAdmin />}
           />
-          
+          <Route
+            path="profile"
+            element={<Profile />}
+          />
+          {/*
+          <Route
+            path="analytics"
+            element={<AnalyticsCard />}
+          />
+          */}
+
         </Route>
 
       </Routes>

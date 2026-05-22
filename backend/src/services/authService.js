@@ -7,7 +7,7 @@ import User from "../models/User.js";
 // Función para registrar usuarios.
 export const registerUser = async (data) => {
   // Desestructurar los datos.
-  const { name, email, password } = data;
+  const { name, email, password, role } = data;
 
   // Verificar si el usuario existe.
   const usuerExists = await User.findOne({ email });
@@ -27,6 +27,8 @@ export const registerUser = async (data) => {
 
     // guardar constraseña encriptada.
     password: hashedPassword,
+
+    role: role || "customer"
   });
 
   return user;

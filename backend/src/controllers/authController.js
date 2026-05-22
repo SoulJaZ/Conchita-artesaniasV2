@@ -31,7 +31,6 @@ export const register = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: user.token,
       },
     });
   } catch (error) {
@@ -55,6 +54,7 @@ export const login = async (req, res) => {
     // Validamos si existe.
     if (!user) {
       return res.status(404).json({
+        success: false,
         message: "Usuario no encontrado.",
       });
     }
@@ -65,7 +65,9 @@ export const login = async (req, res) => {
     // Si contraseña es incorrecta.
     if (!validPassword) {
       return res.status(401).json({
+        success: false,
         message: "Contraseña Incorrecta.",
+        
       });
     }
 

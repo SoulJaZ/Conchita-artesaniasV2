@@ -5,7 +5,7 @@ import {
 
 } from "react";
 
-import { CartContext } from "../../context/CartContext";
+import { CartContext } from "../../context/CartContext.js";
 
 
 // TARJETA PRODUCTO

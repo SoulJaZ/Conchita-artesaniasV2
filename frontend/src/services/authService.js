@@ -1,23 +1,23 @@
-// Importar api axios
-import api from "./api.js";
-
-// REGISTRAR
-
-export const registerUser = async(data)=>{
-
-    // Petición POST al backend.
-    const response = await api.post(
-        "/auth/register",
-        data
-    );
-    return response.data;
-};
+import api from "./api";
 
 // LOGIN
-export const loginUser = async(data)=>{
-    const response = await api.post(
-        "/auth/login",
-        data
-    );
-    return response.data;
+export const loginUser = async(formData) => {
+
+  const { data } = await api.post(
+    "/auth/login",
+    formData
+  );
+
+  return data;
+};
+
+// REGISTER
+export const registerUser = async(formData) => {
+
+  const { data } = await api.post(
+    "/auth/register",
+    formData
+  );
+
+  return data;
 };

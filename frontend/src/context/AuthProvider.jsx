@@ -11,7 +11,7 @@ import {
 
   AuthContext
 
-} from "./AuthContext";
+} from "./AuthContext.jsx";
 
 
 // Servicios auth
@@ -65,7 +65,7 @@ function AuthProvider({
 
       "user",
 
-      JSON.stringify(response)
+      JSON.stringify(response.user)
     );
   };
   // REGISTRO

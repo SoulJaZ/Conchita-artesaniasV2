@@ -9,32 +9,32 @@ import {
   NavLink
 } from "react-router-dom";
 
-import { CartContext } from "../../context/CartContext";
+import { CartContext } from "../../context/CartContext.js";
+import { AuthContext } from "../../context/AuthContext.jsx";
+
+
 // NAVBAR PROFESIONAL
 
 function Navbar() {
   // CONTEXT CARRITO
 
   const {
-
     totalItems,
     openCart
-
   } = useContext(CartContext);
+  // AUTH
+  const {
+    user,
+    logout
+  } = useContext(AuthContext);
+  
+  
   // MENÚ MOBILE
 
   const [menuOpen, setMenuOpen] = useState(false);
   // TOKEN LOGIN
 
-  const token = localStorage.getItem("token");
-  // LOGOUT
 
-  const logout = () => {
-
-    localStorage.removeItem("token");
-
-    window.location.reload();
-  };
   // ESTILO LINKS
 
   const navLinkStyle = ({ isActive }) =>
@@ -272,7 +272,7 @@ function Navbar() {
 
           {
 
-            token ? (
+            user ? (
 
               <>
 
@@ -286,6 +286,17 @@ function Navbar() {
                   Perfil
 
                 </NavLink>
+
+                {
+                  user.role === "admin" && (
+                    <NavLink
+                      to="/admin"
+                      className={navLinkStyle}
+                    >
+                      Admin
+                    </NavLink>
+                  )
+                }
 
 
                 <button

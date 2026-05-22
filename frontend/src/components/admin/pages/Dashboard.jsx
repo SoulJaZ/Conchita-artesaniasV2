@@ -7,8 +7,8 @@ function Dashboard() {
             {/* GRID */}
             <div className="
                 grid
-                md-grid-cols-2
-                xl-grid-cols-4
+                md:grid-cols-2
+                xl:grid-cols-4
                 gap-6
             ">
                 <DashboardCard

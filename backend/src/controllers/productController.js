@@ -1,60 +1,209 @@
-// MODELO PRODUCTO
+// =======================================
+// SERVICES
+// =======================================
 
-import Product from "../models/Product.js";
+import {
+
+  getAllProducts,
+  getProductByIdService,
+  createProductService,
+  updateProductService,
+  deleteProductService
+
+} from "../services/productService.js";
+
+// =======================================
 // OBTENER TODOS LOS PRODUCTOS
+// GET /api/products
+// =======================================
 
 export const getProducts = async (req, res) => {
-  try {
-    // Buscar productos
-    const products = await Product.find();
 
-    // Respuesta
+  try {
+
+    // QUERY PARAMS
+    const {
+
+      search,
+      category,
+      page = 1,
+      limit = 10
+
+    } = req.query;
+
+    // OBTENER PRODUCTOS
+    const products = await getAllProducts(
+
+      search,
+      category,
+      Number(page),
+      Number(limit)
+    );
+
+    // RESPUESTA
     res.json(products);
+
   } catch (error) {
+
     res.status(500).json({
-      message: error.message,
+
+      message: error.message
     });
   }
 };
+
+// =======================================
 // OBTENER PRODUCTO POR ID
+// GET /api/products/:id
+// =======================================
 
 export const getProductById = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
 
-    // Validar existencia
+  try {
+
+    // BUSCAR PRODUCTO
+    const product = await getProductByIdService(
+
+      req.params.id
+    );
+
+    // VALIDAR EXISTENCIA
     if (!product) {
+
       return res.status(404).json({
-        message: "Producto no encontrado",
+
+        message: "Producto no encontrado"
       });
     }
 
+    // RESPUESTA
     res.json(product);
+
   } catch (error) {
+
     res.status(500).json({
-      message: error.message,
+
+      message: error.message
     });
   }
 };
+
+// =======================================
 // CREAR PRODUCTO
+// POST /api/products
+// =======================================
 
 export const createProduct = async (req, res) => {
-  try {
-    const { name, price, image, description, category, stock } = req.body;
 
-    const product = await Product.create({
+  try {
+
+    // DATOS DEL BODY
+    const {
+
       name,
       price,
       image,
       description,
       category,
-      stock,
+      stock
+
+    } = req.body;
+
+    // CREAR PRODUCTO
+    const product = await createProductService({
+
+      name,
+      price,
+      image,
+      description,
+      category,
+      stock
     });
 
+    // RESPUESTA
     res.status(201).json(product);
+
   } catch (error) {
+
     res.status(500).json({
-      message: error.message,
+
+      message: error.message
+    });
+  }
+};
+
+// =======================================
+// ACTUALIZAR PRODUCTO
+// PUT /api/products/:id
+// =======================================
+
+export const updateProduct = async (req, res) => {
+
+  try {
+
+    // ACTUALIZAR PRODUCTO
+    const product = await updateProductService(
+
+      req.params.id,
+      req.body
+    );
+
+    // VALIDAR EXISTENCIA
+    if (!product) {
+
+      return res.status(404).json({
+
+        message: "Producto no encontrado."
+      });
+    }
+
+    // RESPUESTA
+    res.json(product);
+
+  } catch (error) {
+
+    res.status(500).json({
+
+      message: error.message
+    });
+  }
+};
+
+// =======================================
+// ELIMINAR PRODUCTO
+// DELETE /api/products/:id
+// =======================================
+
+export const deleteProduct = async (req, res) => {
+
+  try {
+
+    // ELIMINAR PRODUCTO
+    const product = await deleteProductService(
+
+      req.params.id
+    );
+
+    // VALIDAR EXISTENCIA
+    if (!product) {
+
+      return res.status(404).json({
+
+        message: "Producto no encontrado."
+      });
+    }
+
+    // RESPUESTA
+    res.json({
+
+      message: "Producto eliminado"
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+
+      message: error.message
     });
   }
 };

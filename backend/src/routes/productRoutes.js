@@ -8,7 +8,9 @@ import {
 
   createProduct,
   getProducts,
-  getProductById
+  getProductById,
+  updateProduct,
+  deleteProduct
 
 } from "../controllers/productController.js";
 // ROUTER
@@ -44,6 +46,26 @@ router.post(
   admin,
 
   createProduct
+);
+
+// ACTUALIZAR PRODUCTO
+// ============================
+
+router.put(
+  "/:id",
+  protect,
+  admin,
+  updateProduct
+);
+
+// ELIMINAR PRODUCTO
+// ============================
+
+router.delete(
+  "/:id",
+  protect,
+  admin,
+  deleteProduct
 );
 
 
