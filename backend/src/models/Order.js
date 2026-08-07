@@ -15,6 +15,9 @@ const orderItemSchema = new mongoose.Schema({
   quantity: Number,
 
   price: Number,
+  image: String,
+  price: String,
+
 });
 
 // ============================
@@ -28,21 +31,34 @@ const orderSchema = new mongoose.Schema({
 
     type:mongoose.Schema.Types.ObjectId,
 
-    ref:"User"
+    ref:"User",
+    required:true
+
   },
 
   // Productos comprados
   items:[orderItemSchema],
 
   // Total
-  totalPrice:Number,
+  totalPrice: {
+    type:Number,
+    required:true
+  },
 
   // Estado orden
   status:{
 
     type:String,
+    enum: [
 
-    default:"pendiente"
+            "pending",
+            "paid",
+            "shipped",
+            "delivered",
+            "cancelled"
+        ],
+
+    default:"pending"
   }
 
 },{

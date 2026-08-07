@@ -17,6 +17,7 @@ import cartRoutes from "./routes/cartRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
 import authRoutes from "./routes/authRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 
 // MIDDLEWARES
@@ -95,6 +96,7 @@ app.use("/api/orders", orderRoutes);
 // ===============================
 app.use(errorMiddleware);
 
+app.use("/api/dashboard", dashboardRoutes);
 
 // Exportamos app
 export default app;
