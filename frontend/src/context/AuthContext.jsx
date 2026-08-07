@@ -50,6 +50,7 @@ function AuthProvider({ children }) {
 
       const response = await loginUser(formData);
 
+      console.log("LOGIN RESPONSE:", response);
       // TOKEN
 
       localStorage.setItem(

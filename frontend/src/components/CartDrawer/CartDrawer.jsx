@@ -4,7 +4,7 @@ import { CartContext } from "../../context/CartContext.js";
 
 // CART DRAWER COMPONENT
 const CartDrawer = () => {
-    const { cart, removeFromCart, closeCart, cartOpen } = useContext(CartContext);
+    const { cart, removeFromCart, addToCart, removeOneFromCart, closeCart, cartOpen } = useContext(CartContext);
 
     // TOTAL PRICIO CALCULO
     const total = cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -137,14 +137,32 @@ const CartDrawer = () => {
                                     </div>
 
                                     { /* REMOVE BUTTON */}
+
+                                    <button
+                                        onClick={() =>
+                                            removeOneFromCart(item._id)
+                                        }
+                                        className="
+                      color-black-500
+                    "
+                                    >
+                                        -
+                                    </button>
+                                    <span className="text-red-500 ml-2">
+                                        {item.quantity}
+                                    </span>
+                                    <button
+                                        onClick={() => addToCart(item)}
+                                        className="
+                      text-green-500"
+                                    >
+                                        +
+                                    </button>
                                     <button
                                         onClick={() => removeFromCart(item._id)}
                                         className="
-                                            text-red-500
-                                            hover:text-red-700
-                                        "
-                                    >
-                                        Eliminar
+                      text-red-500"
+                                    > eliminar
                                     </button>
 
                                 </div>
@@ -155,14 +173,14 @@ const CartDrawer = () => {
                 </div>
 
                 {/* FOOTER */}
-                <div 
+                <div
                     className="
                         border-t
                         p-6
                         space-y-4
                     "
                 >
-                    <div 
+                    <div
                         className="
                             flex
                             justify-between
@@ -184,7 +202,7 @@ const CartDrawer = () => {
                             ${total}
                         </p>
                     </div>
-                    <Link 
+                    <Link
                         to="/checkout"
                         onClick={closeCart}
                         className="

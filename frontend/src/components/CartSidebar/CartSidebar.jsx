@@ -172,17 +172,13 @@ function CartSidebar() {
                   {/* Eliminar */}
 
                   <button
-                    onClick={() =>
-                      removeFromCart(item._id)
-                    }
+                    onClick={() => removeFromCart(item._id)}
                     className="
-                      text-red-500
-                      mt-2
-                    "
+                        text-red-500
+                        hover:text-red-700
+                      "
                   >
-
-                    Eliminar
-
+                    Eliminar   🧲
                   </button>
 
                 </div>

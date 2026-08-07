@@ -44,7 +44,7 @@ function Products() {
 
 
       // Guardar productos
-      setProducts(data);
+      setProducts(data.products);
       toast.success("Productos cargados");
 
     } catch (error) {

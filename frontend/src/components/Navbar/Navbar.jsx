@@ -278,7 +278,7 @@ function Navbar() {
 
                 <NavLink
 
-                  to="/profile"
+                  to="/admin/profile"
 
                   className={navLinkStyle}
                 >

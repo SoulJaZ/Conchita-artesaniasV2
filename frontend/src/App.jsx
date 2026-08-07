@@ -20,6 +20,9 @@ import Cart from "./pages/Cart"
 
 import Login from "./pages/Login";
 
+// Checkout
+import Checkout from "./pages/Checkout";
+
 // Admin layout
 // import ProductCard from "./components/ProductCard/ProductCard";
 
@@ -60,6 +63,14 @@ function App() {
           <Route
             path="/cart"
             element={<Cart />}
+          />
+          <Route
+            path="/checkout"
+            element={<Checkout />}
+          />
+          <Route
+            path="/prueba"
+            element={<h1>PRUEBA FUNCIONA</h1>}
           />
 
           <Route

@@ -107,6 +107,7 @@ function AdminSidebar() {
               py-4
               rounded-2xl
               font-medium
+              text-red-300
             ">
 
                             Dashboard
@@ -128,6 +129,7 @@ function AdminSidebar() {
               py-4
               rounded-2xl
               font-medium
+              text-red-300
             ">
 
                             Productos
@@ -149,6 +151,7 @@ function AdminSidebar() {
               py-4
               rounded-2xl
               font-medium
+              text-red-300
             ">
 
                             Órdenes
@@ -170,6 +173,7 @@ function AdminSidebar() {
               py-4
               rounded-2xl
               font-medium
+              text-red-300
             ">
 
                             Usuarios

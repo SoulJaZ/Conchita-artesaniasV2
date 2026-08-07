@@ -55,8 +55,18 @@ function Login() {
       setError("");
 
       await login(formData);
+      console.log("TOKEN DESPUÉS DEL LOGIN:");
+      console.log(localStorage.getItem("token"));
 
-      navigate("/");
+      console.log("USER:");
+      console.log(localStorage.getItem("user"));
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
 
     } catch (error) {
 

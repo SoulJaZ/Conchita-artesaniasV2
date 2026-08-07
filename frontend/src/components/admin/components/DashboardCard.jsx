@@ -4,7 +4,7 @@ function DashboardCard({ title, value }){
         <article className="
             bg-white
             p-8
-            rounded-3lg
+            rounded
             shadow-md
         ">
             <p className="

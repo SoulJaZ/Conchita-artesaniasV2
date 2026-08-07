@@ -2,11 +2,45 @@
 
 function ProductTable({
 
-  products,
+  products = [],
   onEdit,
   onDelete
 
 }) {
+
+  // VALIDAR ARRAY
+  if (!Array.isArray(products)) {
+
+    return (
+
+      <div className="p-10 text-center">
+
+        <p className="text-red-500">
+
+          Error cargando productos.
+
+        </p>
+
+      </div>
+    );
+  }
+
+  // SIN PRODUCTOS
+  if (products.length === 0) {
+
+    return (
+
+      <div className="p-10 text-center">
+
+        <p className="text-gray-500">
+
+          No hay productos registrados.
+
+        </p>
+
+      </div>
+    );
+  }
 
   return (
 
@@ -67,7 +101,6 @@ function ProductTable({
 
           </thead>
 
-
           {/* BODY */}
 
           <tbody>
@@ -87,7 +120,12 @@ function ProductTable({
 
                     <img
 
-                      src={product.image}
+                      src={
+
+                        product.image ||
+
+                        "https://placehold.co/100x100"
+                      }
 
                       alt={product.name}
 
@@ -101,7 +139,6 @@ function ProductTable({
 
                   </td>
 
-
                   {/* NOMBRE */}
 
                   <td className="p-5 font-medium">
@@ -110,15 +147,13 @@ function ProductTable({
 
                   </td>
 
-
                   {/* CATEGORÍA */}
 
                   <td className="p-5">
 
-                    {product.category}
+                    {product.category || "Sin categoría"}
 
                   </td>
-
 
                   {/* PRECIO */}
 
@@ -127,7 +162,6 @@ function ProductTable({
                     ${product.price}
 
                   </td>
-
 
                   {/* STOCK */}
 
@@ -138,6 +172,7 @@ function ProductTable({
                       product.stock > 0
 
                         ? (
+
                           <span className="text-green-600">
 
                             {product.stock}
@@ -146,6 +181,7 @@ function ProductTable({
                         )
 
                         : (
+
                           <span className="text-red-500">
 
                             Sin stock
@@ -155,7 +191,6 @@ function ProductTable({
                     }
 
                   </td>
-
 
                   {/* ACCIONES */}
 
@@ -186,7 +221,6 @@ function ProductTable({
                         Editar
 
                       </button>
-
 
                       {/* ELIMINAR */}
 

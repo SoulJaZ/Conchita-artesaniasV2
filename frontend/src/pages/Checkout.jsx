@@ -1,16 +1,20 @@
-import {
-  useContext
-} from "react";
+import { useContext } from "react";
 
-import {
-  CartContext
-} from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
+import api from "../services/api";
+
+import { CartContext } from "../context/CartContext";
+
 
 // CHECKOUT PAGE
 
 function Checkout() {
 
-  const { cart } = useContext(CartContext);
+  const { cart, clearCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   // TOTAL
 
@@ -22,6 +26,111 @@ function Checkout() {
 
     0
   );
+
+    console.log("===== CHECKOUT RENDER =====");
+    console.log("TOKEN:", localStorage.getItem("token"));
+    console.log("USER:", localStorage.getItem("user"));
+
+  // =======================================
+  // CREAR ORDEN
+  // =======================================
+
+  const handleCheckout = async () => {
+
+    try {
+
+      // Validar carrito vacío
+
+      if (cart.length === 0) {
+
+        toast.warning("El carrito está vacío.");
+
+        return;
+      }
+
+      // Construir la orden
+
+      const orderData = {
+
+        items: cart.map(item => ({
+
+          product: item._id,
+
+          name: item.name,
+
+          image: item.image,
+
+          price: item.price,
+
+          quantity: item.quantity
+
+        })), 
+
+        totalPrice: total
+
+      };
+
+
+      const token = localStorage.getItem("token");
+
+      console.log("TOKEN AL HACER CLICK:", token);
+      console.log("TOKEN:", token);
+      console.log("TIPO:", typeof token);
+      console.log("ES NULL:", token === null);
+      console.log("ES STRING:", token === "null");
+
+      console.log("TOKEN EN CHECKOUT:", token);
+
+      console.log("ORDER DATA:", orderData);
+
+      console.log("HEADERS:", {
+        Authorization: `Bearer ${token}`
+      });
+      console.log("TOKEN:", localStorage.getItem("token"));
+      // Enviar al backend
+
+      if (!token) {
+        toast.error("No hay token. Debes iniciar sesión.");
+        return;
+      }
+
+      console.log(cart);
+
+      await api.post(
+
+        "/orders",
+
+        orderData,
+        {
+          headers: {
+
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+
+      );
+
+      toast.success("Orden creada correctamente.");
+
+      // Vaciar carrito
+
+      clearCart();
+
+      // Redireccionar
+
+      navigate("/");
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      toast.error("No fue posible finalizar la compra.");
+
+    }
+
+  };
 
   return (
 
@@ -149,6 +258,7 @@ function Checkout() {
               font-semibold
               transition
             "
+            onClick={handleCheckout}
           >
 
             Finalizar compra

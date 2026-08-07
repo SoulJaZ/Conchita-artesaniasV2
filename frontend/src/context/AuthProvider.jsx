@@ -30,21 +30,18 @@ function AuthProvider({
 }){
   // ESTADO USUARIO
 
-  const [user,setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   const [loading,setLoading] = useState(true);
   // RECUPERAR SESIÓN
   useEffect(()=>{
 
+    const token = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
 
 
-    if(storedUser){
-
-      setUser(
-
-        JSON.parse(storedUser)
-      );
+    if(token && storedUser){
+      setUser(JSON.parse(storedUser));  
     }
 
     setLoading(false);
@@ -55,9 +52,15 @@ function AuthProvider({
 
     const response = await loginUser(data);
 
+    console.log("LOGIN RESPONSE:", response);
+
 
     // Guardar usuario
-    setUser(response);
+    // Guardar token
+    localStorage.setItem(
+        "token",
+        response.token
+    );
 
 
     // Persistencia
@@ -67,6 +70,10 @@ function AuthProvider({
 
       JSON.stringify(response.user)
     );
+
+    setUser(response.user);
+
+    return response;
   };
   // REGISTRO
 
@@ -81,6 +88,7 @@ function AuthProvider({
     setUser(null);
 
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
   // PROVIDER
 

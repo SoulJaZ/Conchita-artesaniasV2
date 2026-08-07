@@ -4,6 +4,7 @@ import api from "../../../services/api";
 
 import ProductTable from "../components/ProductTable.jsx"
 import ProductForm from "../components/ProductForm.jsx"
+import { toast } from "react-toastify";
 
 
 
@@ -31,7 +32,7 @@ function ProductsAdmin() {
         try {
             setLoading(true);
             const { data } = await api.get("/products");
-            setProducts(data);
+            setProducts(data.products || data);
         } catch (error) {
             console.error(error);
             setError("Error cargando productos.")
@@ -64,7 +65,7 @@ function ProductsAdmin() {
                 setShowForm(false);
             } catch (error) {
                 console.error(error);
-                alert("Error creando producto.")
+                toast.error("Error creando producto.")
 
             }
         }
@@ -91,7 +92,7 @@ function ProductsAdmin() {
                 // CERAR FORMULARIO
                 setShowForm(false);
             } catch (error) {
-                console.error(error);
+                console.error(error)
                 alert("Error actualizando producto.")
             }
         }
