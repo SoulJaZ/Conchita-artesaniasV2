@@ -15,7 +15,7 @@ const generateToken = (id)=>{
 
         // Tiempo de expiración. 
         {
-            expiresIn: "30dS"
+            expiresIn: "30d"
         }
     )
 };
