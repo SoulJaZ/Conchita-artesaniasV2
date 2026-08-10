@@ -72,23 +72,21 @@ function Checkout() {
 
 
       const token = localStorage.getItem("token");
-
-      console.log("TOKEN AL HACER CLICK:", token);
-      console.log("TOKEN:", token);
-      console.log("TIPO:", typeof token);
-      console.log("ES NULL:", token === null);
-      console.log("ES STRING:", token === "null");
-
-      console.log("TOKEN EN CHECKOUT:", token);
-
-      console.log("ORDER DATA:", orderData);
-
-      console.log("HEADERS:", {
-        Authorization: `Bearer ${token}`
-      });
-      console.log("TOKEN:", localStorage.getItem("token"));
+      // console.log("TOKEN AL HACER CLICK:", token);
+      // console.log("TOKEN:", token);
+      // console.log("TIPO:", typeof token);
+      // console.log("ES NULL:", token === null);
+      // console.log("ES STRING:", token === "null");
+      // console.log("TOKEN EN CHECKOUT:", token);
+      // console.log("ORDER DATA:", orderData);
+      // console.log("HEADERS:", {
+      //   Authorization: `Bearer ${token}`
+      // });
+      // console.log("TOKEN:", localStorage.getItem("token"));
+      
+      
+      
       // Enviar al backend
-
       if (!token) {
         toast.error("No hay token. Debes iniciar sesión.");
         return;
@@ -100,13 +98,7 @@ function Checkout() {
 
         "/orders",
 
-        orderData,
-        {
-          headers: {
-
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        }
+        orderData
 
       );
 

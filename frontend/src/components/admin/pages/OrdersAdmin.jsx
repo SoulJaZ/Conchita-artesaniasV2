@@ -16,14 +16,8 @@ function OrdersAdmin(){
     const getOrders = async()=>{
         try {
 
-            const token = localStorage.getItem("token");
             const { data } = await api.get(
                 "/orders",
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
             );
 
             setOrders(data);
@@ -34,19 +28,13 @@ function OrdersAdmin(){
     // CAMBIAR ESTADO
     const updateStatus = async(id,status)=>{
         try {
-            const token = localStorage.getItem("token");
 
-
+            // Actualizar estado de la orden
             await api.put(
                 `/orders/${id}`,
                 { status },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
             );
-
+            // Actualizar la lista de órdenes
             getOrders();
         } catch (error) {
             console.log(error);
@@ -125,7 +113,7 @@ function OrdersAdmin(){
                                             <option value="paid">
                                                 Pagado
                                             </option>
-                                            <option value="shiped">
+                                            <option value="shipped">
                                                 Enviada
                                             </option>
                                             <option value="delivered">
