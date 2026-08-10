@@ -2,6 +2,7 @@ import {
   createOrderService,
   getOrdersService,
   getOrderByIdService,
+  getOrdersByUserService,
   updateOrderStatusService,
   deleteOrderService,
 } from "../services/orderService.js";
@@ -39,6 +40,21 @@ export const getOrders = async (req, res) => {
     const orders = await getOrdersService();
     res.json(orders);
   } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// OBTENER ÓRDENES DE UN USUARIO
+export const getOrdersByUser = async (req, res) => {
+  try {
+    const orders = await getOrdersByUserService(req.user._id);
+    res.json(orders);
+  } catch (error) {
+    console.error("ERROR GET MY ORDERS:");
+    console.error(error);
+    
     res.status(500).json({
       message: error.message,
     });

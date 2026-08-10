@@ -6,6 +6,7 @@ import admin from "../middleware/adminMiddleware.js"
 import {
   createOrder, 
   getOrders,
+  getOrdersByUser,
   getOrderById,
   updateOrderStatus,
   deleteOrder
@@ -19,6 +20,12 @@ router.post(
   protect,
   createOrder
 );
+// OBTENER ÓRDENES USUARIO
+router.get(
+  "/my-orders",
+  protect,
+  getOrdersByUser
+);
 
 // OBTENER ÓRDENES ADMIN
 router.get(
@@ -27,6 +34,7 @@ router.get(
   admin,
   getOrders
 );
+
 
 // OBTENER ORDEN POR ID
 router.get(

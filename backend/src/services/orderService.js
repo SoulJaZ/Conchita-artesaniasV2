@@ -15,6 +15,12 @@ export const getOrdersService = async () => {
     .populate("user", "name email")
     .sort({ createdAt: -1 });
 };
+// OBTENER ÓRDENES DE UN USUARIO
+export const getOrdersByUserService = async (userId) => {
+  return await Order.find({ user: userId })
+    .populate("user", "name email")
+    .sort({ createdAt: -1 });
+}
 
 // OBTENER ORDEN POR ID
 export const getOrderByIdService = async (orderId) => {
