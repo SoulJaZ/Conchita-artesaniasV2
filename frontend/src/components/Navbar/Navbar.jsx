@@ -12,46 +12,41 @@ import {
 import { CartContext } from "../../context/CartContext.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
-
-// NAVBAR PROFESIONAL
-
+// NAVBAR
 function Navbar() {
-  // CONTEXT CARRITO
 
+  // CARRITO
   const {
     totalItems,
     openCart
   } = useContext(CartContext);
-  // AUTH
+
+  // AUTENTICACIÓN
   const {
     user,
     logout
   } = useContext(AuthContext);
-  
-  
+
   // MENÚ MOBILE
-
   const [menuOpen, setMenuOpen] = useState(false);
-  // TOKEN LOGIN
-
 
   // ESTILO LINKS
-
   const navLinkStyle = ({ isActive }) =>
-
     isActive
-
       ? `
         text-[#8b5e3c]
         font-semibold
       `
-
       : `
         text-gray-700
         hover:text-[#8b5e3c]
         transition
       `;
 
+  // CERRAR MENÚ MOBILE
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
 
@@ -81,7 +76,10 @@ function Navbar() {
 
         {/* LOGO */}
 
-        <Link to="/">
+        <Link
+          to="/"
+          onClick={closeMenu}
+        >
 
           <div className="flex flex-col">
 
@@ -94,11 +92,8 @@ function Navbar() {
                 tracking-tight
               "
             >
-
               Conchita Artesanías
-
             </span>
-
 
             <span
               className="
@@ -108,9 +103,7 @@ function Navbar() {
                 uppercase
               "
             >
-
               Handmade Store
-
             </span>
 
           </div>
@@ -121,21 +114,14 @@ function Navbar() {
         {/* BOTÓN MOBILE */}
 
         <button
-
           className="
             md:hidden
             text-3xl
             text-[#8b5e3c]
           "
-
-          onClick={() =>
-
-            setMenuOpen(!menuOpen)
-          }
+          onClick={() => setMenuOpen(!menuOpen)}
         >
-
           ☰
-
         </button>
 
 
@@ -143,7 +129,6 @@ function Navbar() {
 
         <nav
           className={`
-
             absolute
             md:static
 
@@ -178,49 +163,41 @@ function Navbar() {
             duration-300
 
             ${menuOpen
-
               ? "flex"
-
               : "hidden md:flex"
             }
-
           `}
         >
 
           {/* INICIO */}
 
           <NavLink
-
             to="/"
-
             className={navLinkStyle}
+            onClick={closeMenu}
           >
-
             Inicio
-
           </NavLink>
 
 
           {/* PRODUCTOS */}
 
           <NavLink
-
             to="/products"
-
             className={navLinkStyle}
+            onClick={closeMenu}
           >
-
             Productos
-
           </NavLink>
 
 
-          {/* BOTÓN CARRITO */}
+          {/* CARRITO */}
 
           <button
-
-            onClick={openCart}
-
+            onClick={() => {
+              openCart();
+              closeMenu();
+            }}
             className="
               relative
               text-gray-700
@@ -231,106 +208,105 @@ function Navbar() {
 
             Carrito
 
+            {totalItems > 0 && (
 
-            {
+              <span
+                className="
+                  absolute
+                  -top-3
+                  -right-4
 
-              totalItems > 0 && (
+                  bg-[#8b5e3c]
+                  text-white
 
-                <span
-                  className="
-                    absolute
-                    -top-3
-                    -right-4
+                  text-xs
+                  font-bold
 
-                    bg-[#8b5e3c]
-                    text-white
+                  min-w-[22px]
+                  h-[22px]
 
-                    text-xs
-                    font-bold
+                  flex
+                  items-center
+                  justify-center
 
-                    min-w-[22px]
-                    h-[22px]
+                  rounded-full
+                "
+              >
+                {totalItems}
+              </span>
 
-                    flex
-                    items-center
-                    justify-center
-
-                    rounded-full
-                  "
-                >
-
-                  {totalItems}
-
-                </span>
-              )
-            }
+            )}
 
           </button>
 
 
-          {/* LOGIN / PERFIL */}
+          {/* USUARIO AUTENTICADO */}
 
-          {
+          {user ? (
 
-            user ? (
+            <>
 
-              <>
+              {/* CUSTOMER */}
 
-                <NavLink
+              {user.role === "customer" && (
 
-                  to="/admin/profile"
+                <>
 
-                  className={navLinkStyle}
-                >
+                  <NavLink
+                    to="/profile"
+                    className={navLinkStyle}
+                    onClick={closeMenu}
+                  >
+                    Perfil
+                  </NavLink>
 
-                  Perfil
+                  <NavLink
+                    to="/my-orders"
+                    className={navLinkStyle}
+                    onClick={closeMenu}
+                  >
+                    Mis pedidos
+                  </NavLink>
 
-                </NavLink>
+                </>
 
-                {
-                  user.role === "admin" && (
-                    <NavLink
-                      to="/admin"
-                      className={navLinkStyle}
-                    >
-                      Admin
-                    </NavLink>
-                  )
-                }
+              )}
 
 
-                <button
+              {/* ADMIN */}
 
-                  onClick={logout}
+              {user.role === "admin" && (
 
-                  className="
-                    bg-[#8b5e3c]
-                    hover:bg-[#6f472d]
+                <>
 
-                    text-white
+                  <NavLink
+                    to="/admin"
+                    className={navLinkStyle}
+                    onClick={closeMenu}
+                  >
+                    Admin
+                  </NavLink>
 
-                    px-5
-                    py-2
+                  <NavLink
+                    to="/admin/profile"
+                    className={navLinkStyle}
+                    onClick={closeMenu}
+                  >
+                    Perfil
+                  </NavLink>
 
-                    rounded-xl
+                </>
 
-                    transition
-                    duration-300
-                  "
-                >
+              )}
 
-                  Salir
 
-                </button>
+              {/* CERRAR SESIÓN */}
 
-              </>
-
-            ) : (
-
-              <NavLink
-
-                to="/login"
-
+              <button
+                onClick={() => {
+                  logout();
+                  closeMenu();
+                }}
                 className="
                   bg-[#8b5e3c]
                   hover:bg-[#6f472d]
@@ -346,19 +322,44 @@ function Navbar() {
                   duration-300
                 "
               >
+                Salir
+              </button>
 
-                Login
+            </>
 
-              </NavLink>
-            )
-          }
+          ) : (
+
+            /* USUARIO NO AUTENTICADO */
+
+            <NavLink
+              to="/login"
+              className="
+                bg-[#8b5e3c]
+                hover:bg-[#6f472d]
+
+                text-white
+
+                px-5
+                py-2
+
+                rounded-xl
+
+                transition
+                duration-300
+              "
+              onClick={closeMenu}
+            >
+              Login
+            </NavLink>
+
+          )}
 
         </nav>
 
       </div>
 
     </header>
-  )
+  );
 }
 
 export default memo(Navbar);
